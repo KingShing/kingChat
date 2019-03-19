@@ -1,14 +1,14 @@
 package sit.kingshing.common.app;
 
 import android.os.Bundle;
-import android.view.View;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
+
 
 import java.util.List;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import butterknife.BindView;
-import sit.kingshing.common.R;
+import butterknife.ButterKnife;
+
 
 public abstract class Activity extends AppCompatActivity {
 
@@ -56,7 +56,7 @@ public abstract class Activity extends AppCompatActivity {
      * 初始化控件
      */
     protected void initWidget() {
-
+        ButterKnife.bind(this);
     }
 
     /**
@@ -74,9 +74,9 @@ public abstract class Activity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        List<androidx.fragment.app.Fragment> fragments = getSupportFragmentManager().getFragments();
+        List<android.support.v4.app.Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null && fragments.size() > 0) {
-            for (androidx.fragment.app.Fragment fragment : fragments) {
+            for ( android.support.v4.app.Fragment fragment : fragments) {
                 if (fragment instanceof sit.kingshing.common.app.Fragment) {
                     if (((sit.kingshing.common.app.Fragment) fragment).onBackPressed()) {
                         return;

@@ -2,16 +2,20 @@ package sit.kingshing.common.app;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-public abstract class Fragment extends androidx.fragment.app.Fragment {
+
+public abstract class Fragment extends android.support.v4.app.Fragment {
 
     private View mRoot;
+    private Unbinder mUnbinder;
 
     @Override
     public void onAttach(Context context) {
@@ -62,7 +66,7 @@ public abstract class Fragment extends androidx.fragment.app.Fragment {
      * 初始化控件
      */
     protected void initWidget(View root){
-
+        mUnbinder =  ButterKnife.bind(this,root);
     }
 
     /**
