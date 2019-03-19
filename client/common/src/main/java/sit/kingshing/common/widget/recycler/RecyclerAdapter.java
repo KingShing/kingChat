@@ -1,5 +1,6 @@
 package sit.kingshing.common.widget.recycler;
 
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.Adapter;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -15,12 +18,29 @@ import butterknife.Unbinder;
 import sit.kingshing.common.R;
 
 
-public class RecyclerAdapter<Data>
+public abstract class RecyclerAdapter<Data>
         extends Adapter<RecyclerAdapter.ViewHolder<Data>>
-            implements View.OnClickListener, View.OnLongClickListener {
+        implements View.OnClickListener, View.OnLongClickListener, AdapterCallback<Data> {
 
 
-    private final List<Data> mDataList = new ArrayList<>();
+    private final List<Data> mDataList;
+    private AdapterListener<Data> mListener;
+
+    /**
+     * 构造函数
+     */
+    public RecyclerAdapter() {
+        this(null);
+    }
+
+    public RecyclerAdapter(AdapterListener<Data> listener) {
+        this(new ArrayList<Data>(), listener);
+    }
+
+    public RecyclerAdapter(List<Data> dataList, AdapterListener<Data> listener) {
+        this.mDataList = dataList;
+        this.mListener = listener;
+    }
 
 
     /**
@@ -33,20 +53,51 @@ public class RecyclerAdapter<Data>
     public ViewHolder<Data> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View root = inflater.inflate(viewType, parent, false);
-        ViewHolder<Data> holder = onCreateViewHolder((ViewGroup) root, viewType);
+        ViewHolder<Data> holder = onCreateViewHolder(root, viewType);
+        //设置View的tag为ViewHolder，进行双向绑定
+        root.setTag(R.id.tag_recycler_holder, holder);
 
         //设置点击事件
         root.setOnClickListener(this);
         root.setOnLongClickListener(this);
 
-        //设置View的tag为ViewHolder，进行双向绑定
-        root.setTag(R.id.tag_recycler_holder, holder);
-
         //进行界面注解绑定
         holder.mUnbinder = ButterKnife.bind(holder, root);
-        return null;
+
+        //绑定callback
+        holder.callback = this;
+        return holder;
     }
 
+    /**
+     * @param position
+     * @return
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return getItemViewType(position, mDataList.get(position));
+    }
+
+    /**
+     * @param position
+     * @param data
+     * @return
+     */
+    @LayoutRes
+    protected abstract int getItemViewType(int position, Data data);
+
+
+    /**
+     * @param root
+     * @param viewType
+     * @return
+     */
+    protected abstract ViewHolder<Data> onCreateViewHolder(View root, int viewType);
+
+    /**
+     * @param dataViewHolder
+     * @param i
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder<Data> dataViewHolder, int i) {
         //
@@ -56,22 +107,101 @@ public class RecyclerAdapter<Data>
 
     }
 
+
+    /**
+     * @return
+     */
     @Override
     public int getItemCount() {
         return mDataList.size();
     }
 
-    @Override
-    public void onClick(View v) {
-
+    public void add(Data data) {
+        mDataList.add(data);
+        notifyItemInserted(mDataList.size() - 1);
     }
 
+    public void add(Data... dataList) {
+        if (dataList != null && dataList.length > 0) {
+            int startPos = mDataList.size();
+            Collections.addAll(mDataList, dataList);
+            notifyItemRangeInserted(startPos, dataList.length);
+        }
+    }
+
+    public void add(Collection<Data> dataList) {
+        if (dataList != null && dataList.size() > 0) {
+            int startPos = mDataList.size();
+            mDataList.addAll(dataList);
+            notifyItemRangeInserted(startPos, dataList.size());
+        }
+    }
+
+    /**
+     * 删除操作
+     */
+    public void clear() {
+        mDataList.clear();
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 替换一个新的集合
+     */
+    public void replace(Collection<Data> dataList) {
+        mDataList.clear();
+        if (dataList == null || dataList.size() == 0) {
+            return;
+        }
+        mDataList.addAll(dataList);
+        notifyDataSetChanged();
+    }
+
+    /**
+     * @param v
+     */
+    @Override
+    public void onClick(View v) {
+        ViewHolder viewHolder = (ViewHolder) v.getTag(R.id.tag_recycler_holder);
+        if (this.mListener != null) {
+            int pos = viewHolder.getAdapterPosition();
+            this.mListener.onItemClick(viewHolder, mDataList.get(pos));
+        }
+    }
+
+    /**
+     * @param v
+     * @return
+     */
     @Override
     public boolean onLongClick(View v) {
+        ViewHolder viewHolder = (ViewHolder) v.getTag(R.id.tag_recycler_holder);
+        if (this.mListener != null) {
+            int pos = viewHolder.getAdapterPosition();
+            this.mListener.onItemClick(viewHolder, mDataList.get(pos));
+            return true;
+        }
         return false;
     }
 
+    /**
+     * 自定义的监听器
+     *
+     * @param <Data>
+     */
+    public interface AdapterListener<Data> {
+        //当cell点击时触发
+        void onItemClick(RecyclerAdapter.ViewHolder viewHolder, Data data);
 
+        //当cell长按时触发
+        void onItemLongClick(RecyclerAdapter.ViewHolder viewHolder, Data data);
+    }
+
+
+
+    /**
+     * @param <Data>
+     */
     public abstract static class ViewHolder<Data> extends RecyclerView.ViewHolder {
         protected Data mData;
         private Unbinder mUnbinder;
