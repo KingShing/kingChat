@@ -47,6 +47,13 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
 
     }
 
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initData();
+    }
+
     /**
      *
      * @param bundle

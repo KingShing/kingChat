@@ -26,6 +26,10 @@ public abstract class RecyclerAdapter<Data>
     private final List<Data> mDataList;
     private AdapterListener<Data> mListener;
 
+    public void setListener(AdapterListener<Data> mListener) {
+        this.mListener = mListener;
+    }
+
     /**
      * 构造函数
      */
@@ -157,6 +161,17 @@ public abstract class RecyclerAdapter<Data>
         notifyDataSetChanged();
     }
 
+    @Override
+    public void update(Data data, ViewHolder<Data> holder) {
+        int pos = holder.getAdapterPosition();
+        if (pos >= 0) {/*从0开始*/
+            mDataList.remove(pos);
+            mDataList.add(pos, data);
+            //通知这个坐标下的数据要更新
+            notifyItemChanged(pos);
+        }
+    }
+
     /**
      * @param v
      */
@@ -198,7 +213,6 @@ public abstract class RecyclerAdapter<Data>
     }
 
 
-
     /**
      * @param <Data>
      */
@@ -218,6 +232,7 @@ public abstract class RecyclerAdapter<Data>
 
         protected abstract void onBind(Data data);
 
+
         public void update(Data data) {
             if (callback != null) {
                 this.callback.update(data, this);
@@ -225,4 +240,18 @@ public abstract class RecyclerAdapter<Data>
         }
 
     }
+
+    public static abstract class AdapterListenerImpl<Data> implements RecyclerAdapter.AdapterListener<Data> {
+
+        @Override
+        public void onItemClick(RecyclerAdapter.ViewHolder viewHolder, Data data) {
+
+        }
+
+        @Override
+        public void onItemLongClick(RecyclerAdapter.ViewHolder viewHolder, Data data) {
+
+        }
+    }
+
 }

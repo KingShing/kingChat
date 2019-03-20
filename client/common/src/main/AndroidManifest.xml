@@ -1,2 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="sit.kingshing.common" />
+    package="sit.kingshing.common" >
+<uses-permission android:name="android.permission.CALL_PHONE" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE "/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE "/>
+</manifest>

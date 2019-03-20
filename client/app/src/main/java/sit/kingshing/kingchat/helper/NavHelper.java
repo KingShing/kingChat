@@ -11,7 +11,7 @@ import android.util.SparseArray;
  * 解决fragment调度和复用问题
  */
 public class NavHelper<T> {
-    private SparseArray<Tab<T>> tabs = new android.util.SparseArray();
+    private SparseArray<Tab<T>> tabs = new SparseArray();
     private final Context context;
     private final FragmentManager fragmentManager;
     private final int containerId;
