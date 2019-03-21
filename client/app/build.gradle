@@ -26,10 +26,8 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':factory')
     implementation project(':common')
-    //
-    implementation 'com.master.android:permissionhelper:2.0'
-
     // butterknife 依赖
     implementation "com.jakewharton:butterknife:$rootProject.ext.butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$rootProject.ext.butterknifeVersion"
@@ -37,6 +35,10 @@ dependencies {
     api "net.qiujuer.genius:res:$rootProject.ext.geniusVersion"
     api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
     api "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
+    //图片剪裁
+    implementation "com.yalantis:ucrop:$rootProject.ext.ucropVersion"
+    implementation 'pub.devrel:easypermissions:1.0.1'
+
+    //
+    api 'net.qiujuer.genius:kit-handler:2.0.0'
 }
-
-

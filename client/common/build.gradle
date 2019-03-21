@@ -48,6 +48,10 @@ dependencies {
     api "de.hdodenhof:circleimageview:$rootProject.ext.circleimageviewVersion"
     api "com.github.bumptech.glide:glide:$rootProject.ext.glideVersion"
     implementation project(':lang')
+
+    implementation 'net.qiujuer.genius:kit-handler:2.0.0'
+
+
 }
 
 

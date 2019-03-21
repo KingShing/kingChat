@@ -21,6 +21,8 @@ public abstract class Activity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION = 0;
 
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

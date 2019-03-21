@@ -1,5 +1,7 @@
 <resources>
 
+
+
     <style name="Theme.private" parent="Theme.AppCompat">
         <!-- 复写三个主色调 -->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -31,6 +33,8 @@
         <item name="toolbarMenuIconColor">@color/white_alpha_224</item>
 
     </style>
+
+
 
     <style name="AppTheme.Base" parent="Theme.private" />
 </resources>
