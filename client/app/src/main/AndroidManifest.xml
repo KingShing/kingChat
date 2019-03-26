@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="sit.kingshing.kingchat">
     <!-- 网络相关的权限 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-    tools:ignore="ProtectedPermissions" />
-
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 读取存储权限 -->
@@ -14,36 +14,46 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
-
         android:usesCleartextTraffic="true"
-        android:name="sit.kingshing.common.app.Application"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.AccountActivity"
-            android:theme="@style/AppTheme.Account"
-            android:screenOrientation="portrait">
 
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Main">
+        <receiver android:name=".MessageReceiver"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="1000">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+            </intent-filter>
+
+        </receiver>
+        <activity android:name=".activities.UserActivity"></activity>
+        <activity android:name=".LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
+        <activity
+            android:name=".activities.AccountActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Account" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Main"></activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+
     </application>
 
 </manifest>

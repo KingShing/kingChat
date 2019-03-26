@@ -9,6 +9,14 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        //个推相关参数
+        manifestPlaceholders = [
+                GETUI_APP_ID    : "fmkJUYlT6d8GUU2umTrJtA",
+                GETUI_APP_KEY   : "EQsGzdHC0l5e1E6s0qPDC9",
+                GETUI_APP_SECRET: "9evyRm5BzZ53r8wdNe8wC3",
+                PACKAGE_NAME    : applicationId
+        ]
     }
     buildTypes {
         release {
@@ -16,6 +24,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
+
 }
 
 dependencies {
@@ -41,4 +52,8 @@ dependencies {
 
     //
     api 'net.qiujuer.genius:kit-handler:2.0.0'
+
+
+    // 个推
+    implementation "com.getui:sdk:$rootProject.ext.getuiVersion"
 }

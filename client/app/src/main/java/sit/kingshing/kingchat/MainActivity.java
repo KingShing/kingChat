@@ -1,6 +1,8 @@
 package sit.kingshing.kingchat;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Menu;
@@ -76,6 +78,9 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     }
 
+    public static void show(Context context){
+        context.startActivity(new Intent(context,MainActivity.class));
+    }
 
     @Override
     protected void initData() {
@@ -88,10 +93,10 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     protected void initWidget() {
         super.initWidget();
         // checkPerMission();
-        mNavHelper = new NavHelper(this, getSupportFragmentManager(), R.id.lay_container, this);
-        mNavHelper.add(R.id.action_home, new NavHelper.Tab<Integer>(ActiveFragment.class, R.string.title_home))
-                .add(R.id.action_contact, new NavHelper.Tab<Integer>(ContactFragment.class, R.string.title_contact))
-                .add(R.id.action_group, new NavHelper.Tab<Integer>(GroupFragment.class, R.string.title_group));
+        mNavHelper = new NavHelper<>(this, getSupportFragmentManager(), R.id.lay_container, this);
+        mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(ActiveFragment.class, R.string.title_home))
+                .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_contact))
+                .add(R.id.action_group, new NavHelper.Tab<>(GroupFragment.class, R.string.title_group));
 
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(this);
