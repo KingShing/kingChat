@@ -2,11 +2,14 @@ package sit.kingshing.kingchat.fragment.assist;
 
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +23,13 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import sit.kingshing.common.app.Application;
+import sit.kingshing.factory.Factory;
+import sit.kingshing.factory.persistence.Account;
+import sit.kingshing.kingchat.LaunchActivity;
+import sit.kingshing.kingchat.MainActivity;
 import sit.kingshing.kingchat.R;
+import sit.kingshing.kingchat.activities.AccountActivity;
+import sit.kingshing.kingchat.activities.UserActivity;
 import sit.kingshing.kingchat.fragment.media.GalleryFragment;
 
 
@@ -61,8 +70,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
     }
 
 
-
-    public static boolean  haveAllPermissions(FragmentManager manager, Context context){
+    public static boolean haveAllPermissions(Context context){
         String[] perms = new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -72,8 +80,12 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
                 Manifest.permission.ACCESS_WIFI_STATE,
         };
 
-        boolean flag = EasyPermissions.hasPermissions(context, perms);
+        return EasyPermissions.hasPermissions(context, perms);
+    }
 
+
+    public static boolean  checkAndRequestAllPermissions(FragmentManager manager, Context context){
+        boolean flag = haveAllPermissions(context);
 
         if (!flag) {
             show(manager);
@@ -104,6 +116,19 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
         if (EasyPermissions.hasPermissions(this.getContext(), perms)) {
             Application.showToast(R.string.label_permission_ok);
             refreshFragment(getView());
+            // 检查跳转到主页还是登录
+            if (Account.isLogin()) {
+
+                if(Account.isComplete()){
+                    MainActivity.show(getContext());
+                }else {
+                    UserActivity.show(getContext());
+                }
+            } else {
+                AccountActivity.show(getContext());
+            }
+            getActivity().finish();
+
         } else {
             //请求权限
             EasyPermissions.requestPermissions(this, getString(R.string.title_assist_permissions), requestCode, perms);
@@ -128,6 +153,9 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
 
         root.findViewById(R.id.im_state_permission_write)
                 .setVisibility(checkOnePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ? View.VISIBLE : View.GONE);
+
+
+
 
     }
 

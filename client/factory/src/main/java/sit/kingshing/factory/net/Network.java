@@ -46,9 +46,9 @@ public class Network {
                         Request original = chain.request();
                         // 重新进行build
                         Request.Builder builder = original.newBuilder();
-                        if (!TextUtils.isEmpty(Account.getToken())) {
+                        if (!TextUtils.isEmpty(Account.getLocalToken())) {
                             // 注入一个token
-                            builder.addHeader("token", Account.getToken());
+                            builder.addHeader("token", Account.getLocalToken());
                         }
                         builder.addHeader("Content-Type", "application/json");
                         Request newRequest = builder.build();

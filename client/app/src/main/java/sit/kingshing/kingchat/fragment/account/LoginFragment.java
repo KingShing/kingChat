@@ -10,10 +10,13 @@ import net.qiujuer.genius.ui.widget.Loading;
 import butterknife.BindView;
 import butterknife.OnClick;
 import sit.kingshing.common.app.PresenterFragment;
+import sit.kingshing.factory.model.db.User;
+import sit.kingshing.factory.persistence.Account;
 import sit.kingshing.factory.presenter.account.LoginContract;
 import sit.kingshing.factory.presenter.account.LoginPresenter;
 import sit.kingshing.kingchat.MainActivity;
 import sit.kingshing.kingchat.R;
+import sit.kingshing.kingchat.activities.UserActivity;
 
 public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
         implements LoginContract.View {
@@ -97,7 +100,13 @@ public class LoginFragment extends PresenterFragment<LoginContract.Presenter>
 
     @Override
     public void loginSuccess() {
-        MainActivity.show(getContext());
+        //检查用户信息是否完整
+        if (Account.isComplete()) {
+            MainActivity.show(getContext());
+        }else {
+            UserActivity.show(getContext());
+        }
+
         getActivity().finish();
     }
 }

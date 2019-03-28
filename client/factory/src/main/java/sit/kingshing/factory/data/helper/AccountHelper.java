@@ -36,6 +36,7 @@ public class AccountHelper {
         call.enqueue(new AccountRspCallback(callback));
     }
 
+
     /**
      * 登录的调用
      *
@@ -125,6 +126,7 @@ public class AccountHelper {
             } else {
                 // 错误解析
                 Factory.decodeRspCode(rspModel, callback);
+
             }
         }
 

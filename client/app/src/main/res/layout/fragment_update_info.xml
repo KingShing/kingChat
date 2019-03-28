@@ -30,7 +30,7 @@ tools:context=".fragment.user.UpdateInfoFragment">
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Display1" />
 
 
-    <net.qiujuer.italker.common.widget.PortraitView
+    <sit.kingshing.common.widget.PortraitView
         android:id="@+id/im_portrait"
         android:layout_width="@dimen/len_92"
         android:layout_height="@dimen/len_92"

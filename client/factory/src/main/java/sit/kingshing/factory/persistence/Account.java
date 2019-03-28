@@ -22,12 +22,28 @@ public class Account {
     private static String pushId;
     // 设备Id是否已经绑定到了服务器
     private static boolean isBind;
-    // 登录状态的Token，用来接口请求
-    private static String token;
+    // client登录状态的Token，用来接口请求
+    private static String local_token;
+    //服务器数据库的token，用来验证client的token是否失效的
+    private static String remote_token;
+
+
     // 登录的用户ID
     private static String userId;
     // 登录的账户
     private static String account;
+
+
+    public static void clearToken(Context context){
+
+        local_token = null;
+        SharedPreferences sp = context.getSharedPreferences(Account.class.getName(),
+                Context.MODE_PRIVATE);
+        // 存储数据
+        sp.edit()
+                .putString(KEY_TOKEN, null)
+                .apply();
+    }
 
 
     /**
@@ -41,7 +57,7 @@ public class Account {
         sp.edit()
                 .putString(KEY_PUSH_ID, pushId)
                 .putBoolean(KEY_IS_BIND, isBind)
-                .putString(KEY_TOKEN, token)
+                .putString(KEY_TOKEN, local_token)
                 .putString(KEY_USER_ID, userId)
                 .putString(KEY_ACCOUNT, account)
                 .apply();
@@ -55,7 +71,7 @@ public class Account {
                 Context.MODE_PRIVATE);
         pushId = sp.getString(KEY_PUSH_ID, "");
         isBind = sp.getBoolean(KEY_IS_BIND, false);
-        token = sp.getString(KEY_TOKEN, "");
+        local_token = sp.getString(KEY_TOKEN, "");
         userId = sp.getString(KEY_USER_ID, "");
         account = sp.getString(KEY_ACCOUNT, "");
     }
@@ -88,7 +104,7 @@ public class Account {
     public static boolean isLogin() {
         // 用户Id 和 Token 不为空
         return !TextUtils.isEmpty(userId)
-                && !TextUtils.isEmpty(token);
+                && !TextUtils.isEmpty(local_token);
     }
 
     /**
@@ -131,8 +147,8 @@ public class Account {
      * @param model AccountRspModel
      */
     public static void login(AccountRspModel model) {
-        // 存储当前登录的账户, token, 用户Id，方便从数据库中查询我的信息
-        Account.token = model.getToken();
+        // 存储当前登录的账户, local_token, 用户Id，方便从数据库中查询我的信息
+        Account.local_token = model.getToken();
         Account.account = model.getAccount();
         Account.userId = model.getUser().getId();
         save(Factory.app());
@@ -152,11 +168,11 @@ public class Account {
     }
 
     /**
-     * 获取当前登录的Token
+     * 获取当前登录的本地Token
      *
-     * @return Token
+     *  @return Token
      */
-    public static String getToken() {
-        return token;
+    public static String getLocalToken() {
+        return local_token;
     }
 }

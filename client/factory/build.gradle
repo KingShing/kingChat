@@ -42,4 +42,6 @@ dependencies {
     implementation "com.github.Raizlabs.DBFlow:dbflow:${rootProject.ext.dbflowVersion}"
 
     implementation 'net.qiujuer.genius:kit-handler:2.0.0'
+
+
 }
