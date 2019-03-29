@@ -3,8 +3,6 @@ package sit.kingshing.factory.model.api.account;
 import sit.kingshing.factory.model.db.User;
 
 /**
- * @author qiujuer Email:qiujuer@live.cn
- * @version 1.0.0
  */
 public class AccountRspModel {
     // 用户基本信息

@@ -26,7 +26,6 @@ android {
     }
 
 
-
 }
 
 dependencies {
@@ -52,7 +51,6 @@ dependencies {
 
     //
     api 'net.qiujuer.genius:kit-handler:2.0.0'
-
 
     // 个推
     implementation "com.getui:sdk:$rootProject.ext.getuiVersion"

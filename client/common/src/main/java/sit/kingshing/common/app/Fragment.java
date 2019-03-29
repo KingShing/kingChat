@@ -10,12 +10,17 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import sit.kingshing.common.widget.convention.PlaceHolderView;
 
 
 public abstract class Fragment extends android.support.v4.app.Fragment {
 
-    private View mRoot;
-    private Unbinder mUnbinder;
+    protected View mRoot;
+    protected Unbinder mUnbinder;
+
+    protected PlaceHolderView mPlaceHolder;
+
+
 
     @Override
     public void onAttach(Context context) {
@@ -23,6 +28,8 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
        initArgs(getArguments());
 
     }
+
+
 
     @Nullable
     @Override
@@ -39,12 +46,7 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
                 ((ViewGroup)mRoot.getParent()).removeView(mRoot);
             }
         }
-
-
-
         return mRoot;
-
-
     }
 
 
@@ -62,7 +64,6 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
     protected void initArgs(Bundle bundle){
 
     }
-
     /**
      *  得到当前界面的资源id
      * @return 资源id
@@ -89,5 +90,10 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
      */
     public boolean onBackPressed(){
         return false;
+    }
+
+
+    public void setPlaceHolder(PlaceHolderView placeHolderView){
+        mPlaceHolder = placeHolderView;
     }
 }

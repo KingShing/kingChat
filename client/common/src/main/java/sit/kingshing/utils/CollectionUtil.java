@@ -11,7 +11,6 @@ import java.util.Set;
  * 集合工具类
  */
 
-
 public class CollectionUtil {
     /**
      * List集合转换为数组

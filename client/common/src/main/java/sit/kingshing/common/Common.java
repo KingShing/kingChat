@@ -1,8 +1,6 @@
 package sit.kingshing.common;
 
-/**
- * @author qiujuer
- */
+
 
 public class Common {
     /**
@@ -15,6 +13,9 @@ public class Common {
 
         // 基础的网络请求地址 aliyun host 203.195.168.111
         String API_URL = "http://203.195.168.111:8080/kingchat/api/";
-        //TODO
+
+        // 最大的上传图片大小860kb
+        long MAX_UPLOAD_IMAGE_LENGTH = 860 * 1024;
+
     }
 }

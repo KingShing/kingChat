@@ -14,7 +14,6 @@ import sit.kingshing.factory.persistence.Account;
 
 /**
  * 个推接收消息的IntentService，用以接收具体的消息信息
- * 替换之前老版本的消息广播
  */
 public class AppMessageReceiverService extends GTIntentService {
     @Override

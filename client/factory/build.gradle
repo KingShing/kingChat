@@ -43,5 +43,7 @@ dependencies {
 
     implementation 'net.qiujuer.genius:kit-handler:2.0.0'
 
+    api "net.qiujuer.genius:kit-reflect:$rootProject.ext.geniusVersion"
+
 
 }

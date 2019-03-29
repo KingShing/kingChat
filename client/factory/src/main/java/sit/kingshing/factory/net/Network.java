@@ -2,11 +2,6 @@ package sit.kingshing.factory.net;
 
 import android.text.TextUtils;
 
-
-import sit.kingshing.common.Common;
-import sit.kingshing.factory.Factory;
-import sit.kingshing.factory.persistence.Account;
-
 import java.io.IOException;
 
 import okhttp3.Interceptor;
@@ -15,6 +10,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import sit.kingshing.common.Common;
+import sit.kingshing.factory.Factory;
+import sit.kingshing.factory.persistence.Account;
 
 /**
  * 网络请求的封装
@@ -24,9 +22,12 @@ public class Network {
     private static Network instance;
     private Retrofit retrofit;
 
+
     static {
         instance = new Network();
     }
+
+    private OkHttpClient client;
 
     private Network() {
     }
@@ -71,6 +72,35 @@ public class Network {
 
         return instance.retrofit;
 
+    }
+
+
+    public static OkHttpClient getClient() {
+        if (instance.client != null)
+            return instance.client;
+
+        // 存储起来
+        instance.client = new OkHttpClient.Builder()
+                // 给所有的请求添加一个拦截器
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        // 拿到我们的请求
+                        Request original = chain.request();
+                        // 重新进行build
+                        Request.Builder builder = original.newBuilder();
+                        if (!TextUtils.isEmpty(Account.getToken())) {
+                            // 注入一个token
+                            builder.addHeader("token", Account.getToken());
+                        }
+                        builder.addHeader("Content-Type", "application/json");
+                        Request newRequest = builder.build();
+                        // 返回
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+        return instance.client;
     }
 
     /**

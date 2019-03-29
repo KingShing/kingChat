@@ -3,7 +3,9 @@ package sit.kingshing.kingchat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import sit.kingshing.common.app.Activity;
 import sit.kingshing.common.widget.PortraitView;
-import sit.kingshing.kingchat.activities.AccountActivity;
+import sit.kingshing.kingchat.activities.SearchActivity;
 import sit.kingshing.kingchat.fragment.main.ActiveFragment;
 import sit.kingshing.kingchat.fragment.main.ContactFragment;
 import sit.kingshing.kingchat.fragment.main.GroupFragment;
@@ -38,8 +40,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     private static final String TAG = "MainActivity";
     private NavHelper<Integer> mNavHelper;
 
-    @BindView(R.id.appBar)
-    View mLayAppBar;
+    @BindView(R.id.appbar)
+    AppBarLayout mLayAppBar;
 
     @BindView(R.id.im_portrait)
     PortraitView mPortrait;
@@ -64,18 +66,25 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @OnClick(R.id.im_search)
     void onSearchMenuClick() {
-
+        //TODO
+        SearchActivity.show(this,SearchActivity.TYPE_USER);
     }
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-        //TODO
+        //
+        SearchActivity.show(this,SearchActivity.TYPE_USER);
 
     }
 
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
 
+    }
+
+    @Override
+    protected boolean initArgs(Bundle bundle) {
+        return super.initArgs(bundle);
     }
 
     public static void show(Context context){
@@ -92,7 +101,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initWidget() {
         super.initWidget();
-        // checkPerMission();
+        /* checkPerMission(); */
         mNavHelper = new NavHelper<>(this, getSupportFragmentManager(), R.id.lay_container, this);
         mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(ActiveFragment.class, R.string.title_home))
                 .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_contact))
@@ -151,4 +160,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .setDuration(480)
                 .start();
     }
+
+
 }

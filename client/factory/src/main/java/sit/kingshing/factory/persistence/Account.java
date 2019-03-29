@@ -167,6 +167,15 @@ public class Account {
                 .querySingle();
     }
 
+
+    /**
+     *  获取当前用户的id
+     * @return id
+     */
+    public static String getUserId(){
+        return getUser().getId();
+    }
+
     /**
      * 获取当前登录的本地Token
      *
@@ -174,5 +183,10 @@ public class Account {
      */
     public static String getLocalToken() {
         return local_token;
+    }
+
+    public static String getToken() {
+
+        return getLocalToken();
     }
 }

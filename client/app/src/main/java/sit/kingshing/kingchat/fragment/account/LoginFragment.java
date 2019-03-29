@@ -10,7 +10,6 @@ import net.qiujuer.genius.ui.widget.Loading;
 import butterknife.BindView;
 import butterknife.OnClick;
 import sit.kingshing.common.app.PresenterFragment;
-import sit.kingshing.factory.model.db.User;
 import sit.kingshing.factory.persistence.Account;
 import sit.kingshing.factory.presenter.account.LoginContract;
 import sit.kingshing.factory.presenter.account.LoginPresenter;

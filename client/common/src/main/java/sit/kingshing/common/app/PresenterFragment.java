@@ -20,18 +20,27 @@ public abstract class PresenterFragment<Presenter extends BaseContract.Presenter
 
     /**
      * 初始化Presenter
+     *
      * @return Presenter
      */
     protected abstract Presenter initPresenter();
 
     @Override
     public void showError(int str) {
-        // 显示错误
-        Application.showToast(str);
+
+        if (mPlaceHolder != null) {
+            mPlaceHolder.triggerError(str);
+        } else {
+            Application.showToast(str);
+        }
+
     }
 
     @Override
     public void showLoading() {
+        if (mPlaceHolder != null) {
+            mPlaceHolder.triggerLoading();
+        }
         // TODO 显示一个Loading
     }
 

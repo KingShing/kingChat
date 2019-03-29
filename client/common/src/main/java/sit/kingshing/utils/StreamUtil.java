@@ -12,7 +12,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 
-@SuppressWarnings("WeakerAccess")
 public class StreamUtil {
 
     /**
