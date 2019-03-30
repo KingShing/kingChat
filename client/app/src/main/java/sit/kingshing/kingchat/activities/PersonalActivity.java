@@ -11,15 +11,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
+import com.bumptech.glide.Glide;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import sit.kingshing.common.app.ToolbarActivity;
+import sit.kingshing.common.app.PresenterToolbarActivity;
 import sit.kingshing.common.widget.PortraitView;
+import sit.kingshing.factory.model.db.User;
+import sit.kingshing.factory.presenter.contact.PersonalContract;
+import sit.kingshing.factory.presenter.contact.PersonalPresenter;
 import sit.kingshing.kingchat.R;
 
-public class PersonalActivity extends ToolbarActivity {
+public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.Presenter> implements PersonalContract.View {
     private static final String BOUND_KEY_ID = "BOUND_KEY_ID";
     private String userId;
 
@@ -64,6 +67,13 @@ public class PersonalActivity extends ToolbarActivity {
     }
 
     @Override
+    protected void initData() {
+        super.initData();
+        mPresenter.start();
+
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.personal, menu);
@@ -84,5 +94,41 @@ public class PersonalActivity extends ToolbarActivity {
     void onSayHelloClick() {
         // TODO
         //MessageActivity.show(this, null);
+    }
+
+    @Override
+    protected PersonalContract.Presenter initPresenter() {
+        return new PersonalPresenter(this);
+    }
+
+    @Override
+    public String getUserId() {
+        return userId;
+    }
+
+    @Override
+    public void onLoadDone(User user) {
+        if (user==null) {
+            return;
+        }
+        Glide.with(this)
+                .load(user.getPortrait())
+                .centerCrop()
+                .into(mPortrait);
+        mName.setText(user.getName());
+        mDesc.setText(user.getDesc());
+        mFollows.setText(String.format(getString(R.string.label_follows), user.getFollows()));
+        mFollowing.setText(String.format(getString(R.string.label_following), user.getFollowing()));
+        hideLoading();
+    }
+
+    @Override
+    public void allowSayHello(boolean isAllow) {
+
+    }
+
+    @Override
+    public void setFollowStatus(boolean isFollow) {
+
     }
 }

@@ -28,6 +28,8 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import sit.kingshing.common.app.Activity;
 import sit.kingshing.common.widget.PortraitView;
+import sit.kingshing.factory.persistence.Account;
+import sit.kingshing.kingchat.activities.PersonalActivity;
 import sit.kingshing.kingchat.activities.SearchActivity;
 import sit.kingshing.kingchat.fragment.main.ActiveFragment;
 import sit.kingshing.kingchat.fragment.main.ContactFragment;
@@ -79,7 +81,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
-
+        PersonalActivity.show(this, Account.getUserId());
     }
 
     @Override

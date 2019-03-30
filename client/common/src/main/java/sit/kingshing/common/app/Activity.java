@@ -1,28 +1,20 @@
 package sit.kingshing.common.app;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import sit.kingshing.common.widget.convention.PlaceHolderView;
 
 
 public abstract class Activity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION = 0;
 
-
+    protected PlaceHolderView mPlaceHolderView;
     @Override
     protected void onResume() {
         super.onResume();
@@ -35,6 +27,7 @@ public abstract class Activity extends AppCompatActivity {
         if (initArgs(getIntent().getExtras())) {
            int layoutId =  getContentLayoutId();
            setContentView(layoutId);
+            initBefore();
             initWidget();
             initData();
 
@@ -63,6 +56,13 @@ public abstract class Activity extends AppCompatActivity {
     //得到当前界面的资源id
     protected abstract int getContentLayoutId();
 
+
+    /**
+     * 初始化控件之前
+     */
+    protected  void initBefore(){
+
+    }
 
     /**
      * 初始化控件
@@ -100,4 +100,16 @@ public abstract class Activity extends AppCompatActivity {
         super.onBackPressed();
         finish();
     }
+
+
+    /**
+     * 设置占位布局
+     *
+     * @param placeHolderView 继承了占位布局规范的View
+     */
+    public void setPlaceHolderView(PlaceHolderView placeHolderView) {
+        this.mPlaceHolderView = placeHolderView;
+    }
+
+
 }
