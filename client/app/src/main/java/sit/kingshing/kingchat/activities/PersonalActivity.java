@@ -2,7 +2,9 @@ package sit.kingshing.kingchat.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,18 +15,25 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import net.qiujuer.genius.res.Resource;
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import sit.kingshing.common.app.Application;
 import sit.kingshing.common.app.PresenterToolbarActivity;
 import sit.kingshing.common.widget.PortraitView;
+import sit.kingshing.factory.model.card.UserCard;
 import sit.kingshing.factory.model.db.User;
+import sit.kingshing.factory.presenter.contact.FollowPresenter;
 import sit.kingshing.factory.presenter.contact.PersonalContract;
 import sit.kingshing.factory.presenter.contact.PersonalPresenter;
 import sit.kingshing.kingchat.R;
 
-public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.Presenter> implements PersonalContract.View {
+public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.Presenter>
+        implements PersonalContract.View {
     private static final String BOUND_KEY_ID = "BOUND_KEY_ID";
     private String userId;
+    private User mUser;
 
     @BindView(R.id.im_header)
     ImageView mHeader;
@@ -41,7 +50,9 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     @BindView(R.id.btn_say_hello)
     Button mSayHello;
 
-    private MenuItem mFollow;
+    private MenuItem mFollowItem;
+    private boolean mIsFollowUser = false;
+    FollowPresenter followPresenter;
 
     public static void show(Context context, String userId) {
         Intent intent = new Intent(context, PersonalActivity.class);
@@ -77,7 +88,8 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.personal, menu);
-        mFollow = menu.findItem(R.id.action_follow);
+        mFollowItem = menu.findItem(R.id.action_follow);
+        changeFollowItemStatus();
         return true;
     }
 
@@ -85,6 +97,7 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_follow) {
             // 进行关注操作
+            mPresenter.follow(mUser.getId());
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -94,6 +107,23 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     void onSayHelloClick() {
         // TODO
         //MessageActivity.show(this, null);
+    }
+
+    /**
+     * 更改关注菜单状态
+     */
+    private void changeFollowItemStatus() {
+        if (mFollowItem == null)
+            return;
+
+        // 根据状态设置颜色
+        Drawable drawable = mIsFollowUser ? getResources()
+                .getDrawable(R.drawable.ic_favorite) :
+                getResources().getDrawable(R.drawable.ic_favorite_border);
+
+        drawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTint(drawable, mIsFollowUser ? Resource.Color.RED : Resource.Color.WHITE);
+        mFollowItem.setIcon(drawable);
     }
 
     @Override
@@ -108,9 +138,10 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
 
     @Override
     public void onLoadDone(User user) {
-        if (user==null) {
+        if (user == null) {
             return;
         }
+        mUser = user;
         Glide.with(this)
                 .load(user.getPortrait())
                 .centerCrop()
@@ -128,7 +159,21 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
     }
 
     @Override
-    public void setFollowStatus(boolean isFollow) {
-
+    public void onFollowSuccess(UserCard userCard) {
+        mIsFollowUser = true;
+        changeFollowItemStatus();
+        Application.showToast("关注成功");
     }
+
+    @Override
+    public void onFollowFailed(int errStr) {
+        Application.showToast("关注失败");
+    }
+
+    @Override
+    public void setFollowStatus(boolean isFollow) {
+        mIsFollowUser = isFollow;
+        changeFollowItemStatus();
+    }
+
 }
