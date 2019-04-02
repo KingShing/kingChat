@@ -1,11 +1,12 @@
 package sit.kingshing.factory.model.card;
 
-import sit.kingshing.factory.model.db.User;
-
 import java.util.Date;
 
+import sit.kingshing.factory.model.Author;
+import sit.kingshing.factory.model.db.User;
 
-public class UserCard {
+
+public class UserCard implements Author {
     private String id;
     private String name;
     private String phone;

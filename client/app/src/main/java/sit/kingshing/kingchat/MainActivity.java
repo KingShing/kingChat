@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,6 +97,14 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initData() {
         super.initData();
+
+        if(!TextUtils.isEmpty(Account.getUser().getPortrait())){
+            Glide.with(this)
+                    .load(Account.getUser().getPortrait())
+                    .centerCrop()
+                    .into(mPortrait);
+        }
+
         Menu menu = mBottomNavigationView.getMenu();
         menu.performIdentifierAction(R.id.action_home, 0);
     }

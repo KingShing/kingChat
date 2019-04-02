@@ -199,6 +199,11 @@ public abstract class RecyclerAdapter<Data>
         return false;
     }
 
+    public  List<Data> getItems(){
+        return mDataList;
+    }
+
+
     /**
      * 自定义的监听器
      *

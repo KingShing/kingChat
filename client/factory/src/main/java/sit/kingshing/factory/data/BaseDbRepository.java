@@ -40,13 +40,13 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
         registerDbChangedListener();
     }
 
-//    @Override
-//    public void dispose() {
-//        // 取消监听，销毁数据
-//        this.callback = null;
-//        DbHelper.removeChangedListener(dataClass, this);
-//        dataList.clear();
-//    }
+    @Override
+    public void dispose() {
+        // 取消监听，销毁数据
+        this.callback = null;
+        DbHelper.removeChangedListener(dataClass, this);
+        dataList.clear();
+    }
 
     // 数据库统一通知的地方：增加／更改
     @Override

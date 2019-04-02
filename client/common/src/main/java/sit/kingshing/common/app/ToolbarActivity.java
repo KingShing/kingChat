@@ -34,6 +34,7 @@ public abstract class ToolbarActivity extends Activity {
         // 设置左上角的返回按钮为实际的返回效果
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
+            actionBar.setTitle(R.string.title_search);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeButtonEnabled(true);
         }

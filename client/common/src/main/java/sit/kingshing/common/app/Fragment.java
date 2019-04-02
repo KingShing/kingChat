@@ -20,6 +20,8 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
 
     protected PlaceHolderView mPlaceHolder;
 
+    protected boolean MIsFirstLoadData = true;
+
 
 
     @Override
@@ -38,6 +40,8 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
             int layId = getContentLayoutId();
 
             View root = inflater.inflate(layId,container,false);
+
+
             initWidget(root);
             mRoot = root;
 
@@ -49,10 +53,21 @@ public abstract class Fragment extends android.support.v4.app.Fragment {
         return mRoot;
     }
 
+    /**
+     * 第一次加载时会调用
+     */
+    protected  void onFirstInit(){
+
+    }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (MIsFirstLoadData) {
+            MIsFirstLoadData = false;
+            onFirstInit();
+        }
         initData();
     }
 

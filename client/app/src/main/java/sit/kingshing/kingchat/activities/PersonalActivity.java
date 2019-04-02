@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +25,6 @@ import sit.kingshing.common.app.PresenterToolbarActivity;
 import sit.kingshing.common.widget.PortraitView;
 import sit.kingshing.factory.model.card.UserCard;
 import sit.kingshing.factory.model.db.User;
-import sit.kingshing.factory.presenter.contact.FollowPresenter;
 import sit.kingshing.factory.presenter.contact.PersonalContract;
 import sit.kingshing.factory.presenter.contact.PersonalPresenter;
 import sit.kingshing.kingchat.R;
@@ -52,13 +52,14 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
 
     private MenuItem mFollowItem;
     private boolean mIsFollowUser = false;
-    FollowPresenter followPresenter;
+
 
     public static void show(Context context, String userId) {
         Intent intent = new Intent(context, PersonalActivity.class);
         intent.putExtra(BOUND_KEY_ID, userId);
         context.startActivity(intent);
     }
+
 
     @Override
     protected int getContentLayoutId() {
@@ -103,10 +104,19 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
         return super.onOptionsItemSelected(item);
     }
 
+
+    @OnClick(R.id.im_portrait)
+    void onPortraitClick() {
+        UserActivity.show(this);
+    }
+
     @OnClick(R.id.btn_say_hello)
     void onSayHelloClick() {
-        // TODO
-        //MessageActivity.show(this, null);
+        User user = mPresenter.getUserPersonal();
+        if (user == null) {
+            return;
+        }
+        MessageActivity.show(this, user);
     }
 
     /**
@@ -142,10 +152,8 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
             return;
         }
         mUser = user;
-        Glide.with(this)
-                .load(user.getPortrait())
-                .centerCrop()
-                .into(mPortrait);
+
+        mPortrait.setUp(Glide.with(this), user);
         mName.setText(user.getName());
         mDesc.setText(user.getDesc());
         mFollows.setText(String.format(getString(R.string.label_follows), user.getFollows()));
@@ -155,7 +163,7 @@ public class PersonalActivity extends PresenterToolbarActivity<PersonalContract.
 
     @Override
     public void allowSayHello(boolean isAllow) {
-
+        mSayHello.setVisibility(isAllow ? View.VISIBLE : View.INVISIBLE);
     }
 
     @Override

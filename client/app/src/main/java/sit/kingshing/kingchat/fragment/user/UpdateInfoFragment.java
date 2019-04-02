@@ -52,6 +52,7 @@ public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Pre
     private String mPortraitPath;
     private boolean isMan = true;
 
+    private GalleryFragment galleryFragment;
     public UpdateInfoFragment() {
         // Required empty public constructor
     }
@@ -63,8 +64,8 @@ public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Pre
 
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
-        new GalleryFragment()
-                .setListener(new GalleryFragment.onSelectedImageListener() {
+        galleryFragment = new GalleryFragment();
+        galleryFragment.setListener(new GalleryFragment.onSelectedImageListener() {
                     @Override
                     public void selectedImage(String path) {
                         UCrop.Options options = new UCrop.Options();
@@ -99,7 +100,10 @@ public class UpdateInfoFragment extends PresenterFragment<UpdateInfoContract.Pre
             final Uri resultUri = UCrop.getOutput(data);
             if (resultUri != null) {
                 loadPortrait(resultUri);
+                galleryFragment.onDestroyView();
+
             }
+
         } else if (resultCode == UCrop.RESULT_ERROR) {
             Application.showToast(R.string.data_rsp_error_unknown);
         }

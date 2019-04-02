@@ -53,7 +53,7 @@
         app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="@id/guideline1"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:src="@drawable/default_portrait" />
+        android:src="@drawable/default_portrait" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"

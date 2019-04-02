@@ -43,5 +43,7 @@
         <item name="android:textColor">?attr/toolbarTitleColor</item>
     </style>
 
-
+    <style name="AppTheme.Message" parent="AppTheme.TransStatusBar">
+        <item name="android:windowBackground">@color/windowsBackgroundLight</item>
+    </style>
 </resources>
