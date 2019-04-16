@@ -7,7 +7,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 
-import net.qiujuer.widget.airpanel.AirPanelLinearLayout;
+import sit.kingshing.common.airpanel.AirPanelLinearLayout;
 
 
 public class MessageLayout extends AirPanelLinearLayout {

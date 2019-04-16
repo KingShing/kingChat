@@ -100,7 +100,7 @@
     </LinearLayout>
 
     <!--id是固定的airPanelSubLayout-->
-    <net.qiujuer.widget.airpanel.AirPanelFrameLayout
+    <sit.kingshing.common.airpanel.AirPanelFrameLayout
         android:id="@id/airPanelSubLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -112,5 +112,5 @@
             class="sit.kingshing.kingchat.fragment.panel.PanelFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </net.qiujuer.widget.airpanel.AirPanelFrameLayout>
+    </sit.kingshing.common.airpanel.AirPanelFrameLayout>
 </sit.kingshing.common.widget.MessageLayout>

@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="AirPanelLinearLayout"><attr format="dimension" name="airPanelMinHeight"/><attr format="dimension" name="airPanelMaxHeight"/></declare-styleable>
+    <dimen name="airPanelMaxHeight">300dp</dimen>
+    <dimen name="airPanelMinHeight">86dp</dimen>
+    <item name="airPanelSubLayout" type="id"/>
+</resources>

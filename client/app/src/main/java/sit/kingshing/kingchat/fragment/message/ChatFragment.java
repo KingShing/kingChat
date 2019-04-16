@@ -25,14 +25,14 @@ import net.qiujuer.genius.kit.handler.runable.Action;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.compat.UiCompat;
 import net.qiujuer.genius.ui.widget.Loading;
-import net.qiujuer.widget.airpanel.AirPanel;
-import net.qiujuer.widget.airpanel.Util;
 
 import java.io.File;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import sit.kingshing.common.airpanel.AirPanel;
+import sit.kingshing.common.airpanel.Util;
 import sit.kingshing.common.app.Application;
 import sit.kingshing.common.app.PresenterFragment;
 import sit.kingshing.common.tools.AudioPlayHelper;
