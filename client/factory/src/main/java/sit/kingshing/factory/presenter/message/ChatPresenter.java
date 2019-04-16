@@ -1,6 +1,7 @@
 package sit.kingshing.factory.presenter.message;
 
 import android.support.v7.util.DiffUtil;
+import android.text.TextUtils;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import sit.kingshing.factory.model.db.Message;
 import sit.kingshing.factory.persistence.Account;
 import sit.kingshing.factory.presenter.BaseSourcePresenter;
 import sit.kingshing.factory.utils.DiffUiDataCallback;
+
 
 /**
  * 聊天Presenter的基础类
@@ -47,13 +49,37 @@ public class ChatPresenter<View extends ChatContract.View>
     }
 
     @Override
-    public void pushAudio(String path) {
-        // TODO 发送语音
+    public void pushAudio(String path, long time) {
+        if(TextUtils.isEmpty(path)){
+            return;
+        }
+
+        // 构建一个新的消息
+        MsgCreateModel model = new MsgCreateModel.Builder()
+                .receiver(mReceiverId, mReceiverType)
+                .content(path, Message.TYPE_AUDIO)
+                .attach(String.valueOf(time))
+                .build();
+
+        // 进行网络发送
+        MessageHelper.push(model);
     }
 
     @Override
     public void pushImages(String[] paths) {
-        // TODO 发送图片
+        if (paths == null || paths.length == 0)
+            return;
+        // 此时路径是本地的手机上的路径
+        for (String path : paths) {
+            // 构建一个新的消息
+            MsgCreateModel model = new MsgCreateModel.Builder()
+                    .receiver(mReceiverId, mReceiverType)
+                    .content(path, Message.TYPE_PIC)
+                    .build();
+
+            // 进行网络发送
+            MessageHelper.push(model);
+        }
     }
 
     @Override

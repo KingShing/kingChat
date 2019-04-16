@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,8 +29,10 @@ import butterknife.OnClick;
 import sit.kingshing.common.app.Activity;
 import sit.kingshing.common.widget.PortraitView;
 import sit.kingshing.factory.persistence.Account;
+import sit.kingshing.kingchat.activities.GroupCreateActivity;
 import sit.kingshing.kingchat.activities.PersonalActivity;
 import sit.kingshing.kingchat.activities.SearchActivity;
+import sit.kingshing.kingchat.activities.UserActivity;
 import sit.kingshing.kingchat.fragment.main.ActiveFragment;
 import sit.kingshing.kingchat.fragment.main.ContactFragment;
 import sit.kingshing.kingchat.fragment.main.GroupFragment;
@@ -69,14 +70,25 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @OnClick(R.id.im_search)
     void onSearchMenuClick() {
-        //TODO
-        SearchActivity.show(this,SearchActivity.TYPE_USER);
+        // 在群的界面的时候，点击顶部的搜索就进入群搜索界面
+        // 其他都为人搜索的界面
+        int type = Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_group) ?
+                SearchActivity.TYPE_GROUP : SearchActivity.TYPE_USER;
+        SearchActivity.show(this, type);
     }
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
         //
-        SearchActivity.show(this,SearchActivity.TYPE_USER);
+        // 浮动按钮点击时，判断当前界面是群还是联系人界面
+        // 如果是群，则打开群创建的界面
+        if (Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_group)) {
+            // 打开群创建界面
+            GroupCreateActivity.show(this);
+        } else {
+            // 如果是其他，都打开添加用户的界面
+            SearchActivity.show(this, SearchActivity.TYPE_USER);
+        }
 
     }
 
@@ -87,7 +99,13 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @Override
     protected boolean initArgs(Bundle bundle) {
-        return super.initArgs(bundle);
+        if (Account.isComplete()) {
+            // 判断用户信息是否完全，完全则走正常流程
+            return super.initArgs(bundle);
+        } else {
+            UserActivity.show(this);
+            return false;
+        }
     }
 
     public static void show(Context context){
@@ -98,12 +116,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     protected void initData() {
         super.initData();
 
-        if(!TextUtils.isEmpty(Account.getUser().getPortrait())){
-            Glide.with(this)
-                    .load(Account.getUser().getPortrait())
-                    .centerCrop()
-                    .into(mPortrait);
-        }
+
+        mPortrait.setUp(Glide.with(this),Account.getUser().getPortrait());
 
         Menu menu = mBottomNavigationView.getMenu();
         menu.performIdentifierAction(R.id.action_home, 0);

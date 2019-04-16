@@ -154,10 +154,9 @@ public abstract class RecyclerAdapter<Data>
      */
     public void replace(Collection<Data> dataList) {
         mDataList.clear();
-        if (dataList == null || dataList.size() == 0) {
-            return;
+        if (dataList != null && dataList.size() > 0) {
+            mDataList.addAll(dataList);
         }
-        mDataList.addAll(dataList);
         notifyDataSetChanged();
     }
 
@@ -199,7 +198,7 @@ public abstract class RecyclerAdapter<Data>
         return false;
     }
 
-    public  List<Data> getItems(){
+    public List<Data> getItems() {
         return mDataList;
     }
 

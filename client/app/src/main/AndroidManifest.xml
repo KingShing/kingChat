@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 录音权限 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -23,15 +24,30 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <!-- Android7 FileProvider 适配 -->
+        <provider
+            android:name=".AppFileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+        <activity android:name=".activities.GroupMemberActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.GroupCreateActivity" />
         <activity
             android:name=".activities.MessageActivity"
             android:label="@string/title_activity_message"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Message">
-        </activity>
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/AppTheme.Message" />
         <activity
             android:name=".activities.SearchActivity"
             android:screenOrientation="portrait"
+            android:label="@string/title_search"
             android:theme="@style/AppTheme.TransStatusBar" />
 
         <service
@@ -48,7 +64,8 @@
             android:label="AppMessageReceiverService"
             android:permission="1000" />
 
-        <activity android:name=".LaunchActivity">
+        <activity android:name=".LaunchActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,6 +78,7 @@
             android:theme="@style/AppTheme.Main" />
         <activity
             android:name=".activities.AccountActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Account" />
         <activity
             android:name=".MainActivity"
@@ -72,6 +90,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity
             android:name=".activities.PersonalActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.TransStatusBar" />
     </application>
 

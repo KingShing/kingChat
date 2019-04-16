@@ -2,14 +2,11 @@ package sit.kingshing.kingchat.fragment.assist;
 
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +20,7 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 import sit.kingshing.common.app.Application;
-import sit.kingshing.factory.Factory;
 import sit.kingshing.factory.persistence.Account;
-import sit.kingshing.kingchat.LaunchActivity;
 import sit.kingshing.kingchat.MainActivity;
 import sit.kingshing.kingchat.R;
 import sit.kingshing.kingchat.activities.AccountActivity;

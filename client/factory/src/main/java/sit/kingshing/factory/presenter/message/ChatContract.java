@@ -1,9 +1,12 @@
 package sit.kingshing.factory.presenter.message;
 
 
+import java.util.List;
+
 import sit.kingshing.factory.model.db.Group;
 import sit.kingshing.factory.model.db.Message;
 import sit.kingshing.factory.model.db.User;
+import sit.kingshing.factory.model.db.view.MemberUserModel;
 import sit.kingshing.factory.presenter.BaseContract;
 
 /**
@@ -15,7 +18,7 @@ public interface ChatContract {
         void pushText(String content);
 
         // 发送语音
-        void pushAudio(String path);
+        void pushAudio(String path, long time);
 
         // 发送图片
         void pushImages(String[] paths);
@@ -37,6 +40,10 @@ public interface ChatContract {
 
     // 群聊天的界面
     interface GroupView extends View<Group> {
+        // 显示管理员菜单
+        void showAdminOption(boolean isAdmin);
 
+        // 初始化成员信息
+        void onInitGroupMembers(List<MemberUserModel> members, long moreCount);
     }
 }
