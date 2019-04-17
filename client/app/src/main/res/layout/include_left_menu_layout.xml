@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayout"
+    android:layout_width="270dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:background="@color/white">
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/bg_src_tianjin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <sit.kingshing.common.widget.PortraitView
+        android:id="@+id/im_slide"
+        android:layout_width="@dimen/len_100"
+        android:layout_height="@dimen/len_100"
+        android:layout_margin="@dimen/len_10"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toTopOf="@+id/view"
+        tools:src="@drawable/default_portrait" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="叶金成"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/im_slide"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toEndOf="@+id/im_slide" />
+
+    <LinearLayout
+        android:background="@color/trans"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="@dimen/len_20"
+        android:orientation="vertical"
+        android:padding="@dimen/len_8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/len_8">
+
+            <ImageView
+                android:layout_width="@dimen/portraitMinSize"
+                android:layout_height="@dimen/portraitMinSize"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="@dimen/len_8"
+                android:src="@android:drawable/ic_menu_edit" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="@dimen/len_44"
+                android:text="收藏"
+                android:textColor="@color/red_200"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/len_8">
+
+            <ImageView
+                android:layout_width="@dimen/portraitMinSize"
+                android:layout_height="@dimen/portraitMinSize"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="@dimen/len_8"
+                android:src="@android:drawable/btn_star_big_on" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="@dimen/len_44"
+                android:text="@string/app_name"
+                android:textAllCaps="false"
+                android:textColor="@color/red_200"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/len_8">
+
+            <ImageView
+                android:layout_width="@dimen/portraitMinSize"
+                android:layout_height="@dimen/portraitMinSize"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="@dimen/len_8"
+                android:src="@drawable/ic_group"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="@dimen/len_44"
+                android:text="切换账号"
+                android:textColor="@color/red_200"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/len_8">
+
+            <ImageView
+                android:layout_width="@dimen/portraitMinSize"
+                android:layout_height="@dimen/portraitMinSize"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="@dimen/len_8"
+                android:src="@android:drawable/presence_offline"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="@dimen/len_44"
+                android:text="退出"
+                android:textColor="@color/red_200"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

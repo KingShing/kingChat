@@ -3,12 +3,19 @@ package sit.kingshing.kingchat;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.ViewDragHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
@@ -22,6 +29,7 @@ import com.bumptech.glide.request.target.ViewTarget;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 import butterknife.BindView;
@@ -44,6 +52,13 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     private static final String TAG = "MainActivity";
     private NavHelper<Integer> mNavHelper;
 
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+
+    @BindView(R.id.main_layout)
+    CoordinatorLayout mCoordinatorLayout;
+
     @BindView(R.id.appbar)
     AppBarLayout mLayAppBar;
 
@@ -58,6 +73,13 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @BindView(R.id.lay_container)
     FrameLayout mContainer;
+
+    @BindView(R.id.im_slide)
+    PortraitView im_slide;
+
+
+    @BindView(R.id.constraintLayout)
+    ConstraintLayout mConstraintLayout;
 
 
     @BindView(R.id.navigation)
@@ -108,16 +130,16 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
         }
     }
 
-    public static void show(Context context){
-        context.startActivity(new Intent(context,MainActivity.class));
+    public static void show(Context context) {
+        context.startActivity(new Intent(context, MainActivity.class));
     }
 
     @Override
     protected void initData() {
         super.initData();
 
-
-        mPortrait.setUp(Glide.with(this),Account.getUser().getPortrait());
+        im_slide.setUp(Glide.with(this), Account.getUser().getPortrait());
+        mPortrait.setUp(Glide.with(this), Account.getUser().getPortrait());
 
         Menu menu = mBottomNavigationView.getMenu();
         menu.performIdentifierAction(R.id.action_home, 0);
@@ -126,6 +148,15 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initWidget() {
         super.initWidget();
+        setDrawerLeftEdgeSize(this, mDrawerLayout, 0.4f);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                float scale = 1 - slideOffset;//1~0
+                mCoordinatorLayout.setTranslationX(drawerView.getMeasuredWidth() * (1 - scale));//0~width
+            }
+        });
+
         /* checkPerMission(); */
         mNavHelper = new NavHelper<>(this, getSupportFragmentManager(), R.id.lay_container, this);
         mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(ActiveFragment.class, R.string.title_home))
@@ -148,8 +179,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         return mNavHelper.performClickMenu(menuItem.getItemId());
     }
-
-
 
 
     /**
@@ -184,6 +213,51 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .setInterpolator(new AnticipateOvershootInterpolator(1))
                 .setDuration(480)
                 .start();
+    }
+
+    /**
+     *  displayWidthPercentage 大于0.5时 ，目前还存在bug
+     * @param activity  activity
+     * @param drawerLayout drawerLayout
+     * @param displayWidthPercentage 响应拖动的范围
+     */
+    private void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
+        if (activity == null || drawerLayout == null) return;
+        try {
+            // 找到 ViewDragHelper 并设置 Accessible 为true
+            Field leftDraggerField =
+                    drawerLayout.getClass().getDeclaredField("mLeftDragger");//Right
+            leftDraggerField.setAccessible(true);
+            ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
+
+            // 找到 edgeSizeField 并设置 Accessible 为true
+            Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
+            edgeSizeField.setAccessible(true);
+            int edgeSize = edgeSizeField.getInt(leftDragger);
+
+            // 设置新的边缘大小
+            Point displaySize = new Point();
+            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
+            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (displaySize.x *
+                    displayWidthPercentage)));
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException e) {
+        }
+    }
+
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        final long downTime = event.getDownTime();
+        Log.e(TAG, "downTime: " + downTime);
+        return super.onTouchEvent(event);
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return super.dispatchTouchEvent(event);
     }
 
 

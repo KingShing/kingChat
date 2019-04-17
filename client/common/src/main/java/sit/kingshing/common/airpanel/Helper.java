@@ -224,12 +224,6 @@ final class Helper implements Contract.Helper {
         }
 
         private boolean isOpenSoftKeyboard() {
-            // 75
-            Log.e("notchHeight", "" + notchHeight);
-            Log.e("=====left", "" + mLastFrame.bottom);
-            Log.e("virtualBarHeight", "" + virtualBarHeight);
-            Log.e("======right", "" + (mDisplayHeight+notchHeight));
-            Log.e("/n/t", "/n/t");
             return mLastFrame.bottom != 0 && mLastFrame.bottom != (mDisplayHeight+notchHeight);
         }
 
