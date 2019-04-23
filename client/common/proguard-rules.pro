@@ -22,3 +22,6 @@
 -keep class com.alibaba.sdk.android.oss.** { *; }
 -dontwarn okio.**
 -dontwarn org.apache.commons.codec.binary.**
+
+-dontwarn interfaces.heweather.com.interfacesmodule.**
+-keep class interfaces.heweather.com.interfacesmodule.** { *;}

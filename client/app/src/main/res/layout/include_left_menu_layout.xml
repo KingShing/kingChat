@@ -31,53 +31,29 @@
         tools:src="@drawable/default_portrait" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/txt_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="叶金成"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/im_slide"
         app:layout_constraintEnd_toEndOf="@+id/view"
-        app:layout_constraintStart_toEndOf="@+id/im_slide" />
+        app:layout_constraintStart_toEndOf="@+id/im_slide"
+        tools:text="叶金成" />
 
     <LinearLayout
-        android:background="@color/trans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginVertical="@dimen/len_20"
+        android:background="@color/trans"
         android:orientation="vertical"
         android:padding="@dimen/len_8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-
         <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/len_8">
-
-            <ImageView
-                android:layout_width="@dimen/portraitMinSize"
-                android:layout_height="@dimen/portraitMinSize"
-                android:layout_gravity="center|start"
-                android:layout_marginStart="@dimen/len_8"
-                android:src="@android:drawable/ic_menu_edit" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center|end"
-                android:layout_marginEnd="@dimen/len_44"
-                android:text="收藏"
-                android:textColor="@color/red_200"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                />
-        </FrameLayout>
-
-        <FrameLayout
+            android:id="@+id/frameLayout_moment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/len_8">
@@ -94,10 +70,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
                 android:layout_marginEnd="@dimen/len_44"
-                android:text="@string/app_name"
+                android:text="时刻"
                 android:textAllCaps="false"
-                android:textColor="@color/red_200"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/red_200" />
         </FrameLayout>
 
         <FrameLayout
@@ -110,21 +86,21 @@
                 android:layout_height="@dimen/portraitMinSize"
                 android:layout_gravity="center|start"
                 android:layout_marginStart="@dimen/len_8"
-                android:src="@drawable/ic_group"
-                 />
+                android:src="@drawable/ic_qrcode" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|end"
                 android:layout_marginEnd="@dimen/len_44"
-                android:text="切换账号"
-                android:textColor="@color/red_200"
+                android:text="扫一扫"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                />
+                android:textColor="@color/red_200" />
         </FrameLayout>
 
+
         <FrameLayout
+            android:id="@+id/cell_otherAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginVertical="@dimen/len_8">
@@ -134,8 +110,30 @@
                 android:layout_height="@dimen/portraitMinSize"
                 android:layout_gravity="center|start"
                 android:layout_marginStart="@dimen/len_8"
-                android:src="@android:drawable/presence_offline"
-                />
+                android:src="@drawable/ic_group" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_marginEnd="@dimen/len_44"
+                android:text="切换"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/red_200" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/cell_quit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/len_8">
+
+            <ImageView
+                android:layout_width="@dimen/portraitMinSize"
+                android:layout_height="@dimen/portraitMinSize"
+                android:layout_gravity="center|start"
+                android:layout_marginStart="@dimen/len_8"
+                android:src="@drawable/ic_quit" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -143,12 +141,60 @@
                 android:layout_gravity="center|end"
                 android:layout_marginEnd="@dimen/len_44"
                 android:text="退出"
-                android:textColor="@color/red_200"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textColor="@color/red_200" />
         </FrameLayout>
 
 
     </LinearLayout>
+
+    <sit.kingshing.common.widget.PortraitView
+        android:id="@+id/im_weather"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintStart_toStartOf="@+id/txt_name"
+        app:layout_constraintTop_toTopOf="@+id/im_slide"
+        tools:src="@drawable/ic_weather_101" />
+
+    <TextView
+
+        android:id="@+id/txt_tmp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/im_weather"
+        app:layout_constraintTop_toTopOf="@+id/im_weather"
+        tools:text="18.5C" />
+
+    <TextView
+        android:id="@+id/txt_cond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="TextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/im_weather"
+        app:layout_constraintTop_toBottomOf="@+id/txt_tmp"
+        tools:text="多云" />
+
+    <TextView
+        android:id="@+id/txt_area"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toStartOf="@+id/im_weather"
+        app:layout_constraintTop_toBottomOf="@+id/im_weather"
+        tools:text="北京" />
+
+    <TextView
+        android:id="@+id/txt_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintEnd_toEndOf="@+id/view"
+        app:layout_constraintStart_toEndOf="@+id/txt_area"
+        app:layout_constraintTop_toBottomOf="@+id/im_weather"
+        tools:text="朝阳区" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -2,8 +2,8 @@ package sit.kingshing.kingchat;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -11,11 +11,10 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.ViewDragHelper;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.FrameLayout;
@@ -29,15 +28,21 @@ import com.bumptech.glide.request.target.ViewTarget;
 import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
-import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import interfaces.heweather.com.interfacesmodule.bean.weather.now.Now;
 import sit.kingshing.common.app.Activity;
+import sit.kingshing.common.tools.UiTool;
 import sit.kingshing.common.widget.PortraitView;
+import sit.kingshing.factory.Factory;
+import sit.kingshing.factory.model.card.WeatherCard;
 import sit.kingshing.factory.persistence.Account;
+import sit.kingshing.kingchat.activities.AccountActivity;
 import sit.kingshing.kingchat.activities.GroupCreateActivity;
+import sit.kingshing.kingchat.activities.MomentActivity;
 import sit.kingshing.kingchat.activities.PersonalActivity;
 import sit.kingshing.kingchat.activities.SearchActivity;
 import sit.kingshing.kingchat.activities.UserActivity;
@@ -45,16 +50,14 @@ import sit.kingshing.kingchat.fragment.main.ActiveFragment;
 import sit.kingshing.kingchat.fragment.main.ContactFragment;
 import sit.kingshing.kingchat.fragment.main.GroupFragment;
 import sit.kingshing.kingchat.helper.NavHelper;
+import sit.kingshing.kingchat.util.LocationUtil;
+import sit.kingshing.weather.Weather;
 
 public class MainActivity extends Activity implements BottomNavigationView.OnNavigationItemSelectedListener,
         NavHelper.OnTabChangedListener<Integer> {
 
     private static final String TAG = "MainActivity";
     private NavHelper<Integer> mNavHelper;
-
-
-    @BindView(R.id.drawer_layout)
-    DrawerLayout mDrawerLayout;
 
     @BindView(R.id.main_layout)
     CoordinatorLayout mCoordinatorLayout;
@@ -74,16 +77,41 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @BindView(R.id.lay_container)
     FrameLayout mContainer;
 
-    @BindView(R.id.im_slide)
-    PortraitView im_slide;
-
-
     @BindView(R.id.constraintLayout)
     ConstraintLayout mConstraintLayout;
 
 
     @BindView(R.id.navigation)
     BottomNavigationView mBottomNavigationView;
+
+
+    //  left menu
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+
+    @BindView(R.id.frameLayout_moment)
+    FrameLayout mLayout_moment;
+    @BindView(R.id.txt_name)
+    TextView txt_name;
+    @BindView(R.id.im_slide)
+    PortraitView im_slide;
+
+    // left weather
+    @BindView(R.id.txt_cond)
+    TextView txt_cond;
+
+    @BindView(R.id.txt_area)
+    TextView txt_area;
+
+    @BindView(R.id.txt_location)
+    TextView txt_location;
+
+    @BindView(R.id.txt_tmp)
+    TextView txt_tmp;
+
+    @BindView(R.id.im_weather)
+    PortraitView im_weather;
+
 
     @Override
     protected int getContentLayoutId() {
@@ -101,7 +129,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @OnClick(R.id.btn_action)
     void onActionClick() {
-        //
         // 浮动按钮点击时，判断当前界面是群还是联系人界面
         // 如果是群，则打开群创建的界面
         if (Objects.equals(mNavHelper.getCurrentTab().extra, R.string.title_group)) {
@@ -116,7 +143,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
-        PersonalActivity.show(this, Account.getUserId());
+        mDrawerLayout.openDrawer(R.layout.include_left_menu_layout);
     }
 
     @Override
@@ -137,10 +164,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initData() {
         super.initData();
-
         im_slide.setUp(Glide.with(this), Account.getUser().getPortrait());
         mPortrait.setUp(Glide.with(this), Account.getUser().getPortrait());
-
         Menu menu = mBottomNavigationView.getMenu();
         menu.performIdentifierAction(R.id.action_home, 0);
     }
@@ -148,30 +173,8 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     protected void initWidget() {
         super.initWidget();
-        setDrawerLeftEdgeSize(this, mDrawerLayout, 0.4f);
-        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-                float scale = 1 - slideOffset;//1~0
-                mCoordinatorLayout.setTranslationX(drawerView.getMeasuredWidth() * (1 - scale));//0~width
-            }
-        });
-
-        /* checkPerMission(); */
-        mNavHelper = new NavHelper<>(this, getSupportFragmentManager(), R.id.lay_container, this);
-        mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(ActiveFragment.class, R.string.title_home))
-                .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_contact))
-                .add(R.id.action_group, new NavHelper.Tab<>(GroupFragment.class, R.string.title_group));
-
-
-        mBottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppBar) {
-            @Override
-            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
-                this.view.setBackground(resource.getCurrent());
-            }
-        });
+        initDrawerLayout();
+        initBottomNavigationView();
     }
 
 
@@ -190,7 +193,6 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
     @Override
     public void onTabChanged(NavHelper.Tab<Integer> newTab, NavHelper.Tab<Integer> oldTab) {
         mTitle.setText(newTab.extra);
-
         float transY = 0;
         float rotation = 0;
         if (Objects.equals(newTab.extra, R.string.title_home)) {
@@ -215,50 +217,136 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
                 .start();
     }
 
+
+    private void initBottomNavigationView() {
+        mNavHelper = new NavHelper<>(this, getSupportFragmentManager(), R.id.lay_container, this);
+        mNavHelper.add(R.id.action_home, new NavHelper.Tab<>(ActiveFragment.class, R.string.title_home))
+                .add(R.id.action_contact, new NavHelper.Tab<>(ContactFragment.class, R.string.title_contact))
+                .add(R.id.action_group, new NavHelper.Tab<>(GroupFragment.class, R.string.title_group));
+
+
+        mBottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        Glide.with(this).load(R.drawable.bg_src_morning).centerCrop().into(new ViewTarget<View, GlideDrawable>(mLayAppBar) {
+            @Override
+            public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                this.view.setBackground(resource.getCurrent());
+            }
+        });
+    }
+
+    private void initDrawerLayout() {
+        UiTool.setDrawerLeftEdgeSize(this, mDrawerLayout, 0.4f);
+        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+
+                Log.e(TAG, "onDrawerOpened: ");
+                //获取天气
+                final Weather weather = new Weather(new Weather.onLoadWeatherSuccess() {
+                    @Override
+                    public void onSuccess(List<Now> list) {
+                        if (list == null || list.size() <= 0)
+                            return;
+                        WeatherCard wc = new WeatherCard(list.get(0));
+                        im_weather.setUp(Glide.with(Factory.app()), wc.getIcWeatherPicture());
+                        txt_cond.setText(wc.getCondTxt());
+                        txt_area.setText(wc.getAdminArea());
+                        txt_name.setText(Account.getUser().getName());
+                        // 得到提示文字
+                        String str = getResources().getString(R.string.label_weather);
+                        // 格式化填充
+                        str = String.format(str, wc.getTmp());
+                        txt_tmp.setText(str);
+                        txt_location.setText(wc.getLocation());
+                    }
+                });
+                weather.getWeatherNow(getApplication(), LocationUtil.getLocation());
+            }
+
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+                float scale = 1 - slideOffset;//1~0
+                mCoordinatorLayout.setTranslationX(drawerView.getMeasuredWidth() * (1 - scale));//0~width
+            }
+        });
+    }
+
+
     /**
-     *  displayWidthPercentage 大于0.5时 ，目前还存在bug
-     * @param activity  activity
-     * @param drawerLayout drawerLayout
-     * @param displayWidthPercentage 响应拖动的范围
+     * 侧滑部分
      */
-    private void setDrawerLeftEdgeSize(Activity activity, DrawerLayout drawerLayout, float displayWidthPercentage) {
-        if (activity == null || drawerLayout == null) return;
-        try {
-            // 找到 ViewDragHelper 并设置 Accessible 为true
-            Field leftDraggerField =
-                    drawerLayout.getClass().getDeclaredField("mLeftDragger");//Right
-            leftDraggerField.setAccessible(true);
-            ViewDragHelper leftDragger = (ViewDragHelper) leftDraggerField.get(drawerLayout);
 
-            // 找到 edgeSizeField 并设置 Accessible 为true
-            Field edgeSizeField = leftDragger.getClass().getDeclaredField("mEdgeSize");
-            edgeSizeField.setAccessible(true);
-            int edgeSize = edgeSizeField.getInt(leftDragger);
+    @OnClick(R.id.frameLayout_moment)
+    void momentClick() {
+        MomentActivity.show(this);
+    }
 
-            // 设置新的边缘大小
-            Point displaySize = new Point();
-            activity.getWindowManager().getDefaultDisplay().getSize(displaySize);
-            edgeSizeField.setInt(leftDragger, Math.max(edgeSize, (int) (displaySize.x *
-                    displayWidthPercentage)));
-        } catch (NoSuchFieldException e) {
-        } catch (IllegalArgumentException e) {
-        } catch (IllegalAccessException e) {
-        }
+    @OnClick(R.id.im_slide)
+    void imClick() {
+        PersonalActivity.show(this, Account.getUserId());
     }
 
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        final long downTime = event.getDownTime();
-        Log.e(TAG, "downTime: " + downTime);
-        return super.onTouchEvent(event);
+    @OnClick(R.id.cell_quit)
+    void quit() {
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert_Light)
+                .setMessage(R.string.label_quit)//设置对话框的内容
+                //设置对话框的按钮
+                .setNegativeButton(R.string.label_cancel, new DialogInterface.OnClickListener() {
+                    //取消
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.label_confirm, new DialogInterface.OnClickListener() {
+                    //确定
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        quitApp();
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
+
+    }
+
+    @OnClick(R.id.cell_otherAccount)
+    void swapAccount() {
+        AlertDialog dialog = new AlertDialog.Builder(this, R.style.AppTheme_Dialog_Alert_Light)
+                .setMessage(R.string.label_other_account)//设置对话框的内容
+                //设置对话框的按钮
+                .setNegativeButton(R.string.label_cancel, new DialogInterface.OnClickListener() {
+                    //取消
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.label_confirm, new DialogInterface.OnClickListener() {
+                    //确定
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        OtherAccount();
+                        dialog.dismiss();
+                    }
+                }).create();
+        dialog.show();
     }
 
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        return super.dispatchTouchEvent(event);
+    private void quitApp() {
+        Account.clearToken(this);
+        AccountActivity.show(this);
+        finish();
     }
 
+
+    private void OtherAccount() {
+        Account.clearToken(this);
+        AccountActivity.show(this);
+        finish();
+    }
 
 }

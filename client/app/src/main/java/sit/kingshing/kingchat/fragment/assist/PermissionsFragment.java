@@ -73,6 +73,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
         };
 
         return EasyPermissions.hasPermissions(context, perms);
@@ -106,6 +107,7 @@ public class PermissionsFragment extends BottomSheetDialogFragment implements Ea
                 Manifest.permission.INTERNET,
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
         };
         //先检查是否已经有了所有权限
         if (EasyPermissions.hasPermissions(this.getContext(), perms)) {

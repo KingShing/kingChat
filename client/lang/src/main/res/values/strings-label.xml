@@ -46,4 +46,22 @@
     <string name="toast_audio_record_time_short_error">录音时间太短!</string>
 
     <string name="toast_download_error">下载失败!</string>
+
+    <!--朋友圈-->
+    <string name="label_praise">赞</string>
+    <string name="label_share">分享</string>
+    <string name="label_comment">评论</string>
+    <string name="label_content_holder">请输入正文</string>
+    <string name="label_content_tools">哟，又写BUG呢？</string>
+    <!---->
+
+    <!--天气-->
+    <string name="label_weather">%s°C</string>
+
+    <!--侧滑栏-->
+    <string name="label_confirm">确定</string>
+    <string name="label_cancel">取消</string>
+    <string name="label_quit">你确定退出kingChat吗？</string>
+    <string name="label_other_account">你确定切换账号吗？</string>
+
 </resources>

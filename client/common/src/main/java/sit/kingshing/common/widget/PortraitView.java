@@ -41,4 +41,12 @@ public class PortraitView extends CircleImageView {
                 .centerCrop()
                 .into(this);
     }
+
+    public void setUp(RequestManager manager, int uri) {
+        manager.load(uri)
+                .dontAnimate()//控件中不能使用动画，会使头像显示延迟
+                .placeholder(R.drawable.default_portrait)
+                .centerCrop()
+                .into(this);
+    }
 }

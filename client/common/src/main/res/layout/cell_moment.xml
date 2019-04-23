@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <sit.kingshing.common.widget.PortraitView
+        android:id="@+id/im_portrait"
+        android:layout_width="@dimen/portraitSize"
+        android:layout_height="@dimen/portraitSize"
+        android:layout_alignParentStart="true"
+        android:layout_margin="@dimen/len_2"
+        android:layout_marginStart="0dp"
+        android:src="@drawable/default_portrait" />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/len_2"
+
+        android:layout_toEndOf="@+id/im_portrait"
+        android:text="txt_name" />
+
+    <TextView
+        android:id="@+id/txt_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_name"
+        android:layout_margin="@dimen/len_2"
+        android:layout_toEndOf="@+id/im_portrait"
+        android:text="time" />
+
+    <FrameLayout
+        android:id="@+id/lay_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_time"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/len_8"
+        tools:layout_height="@dimen/len_100">
+
+        <TextView
+            tools:text="@string/label_content_tools"
+            android:hint="@string/label_content_holder"
+            android:id="@+id/txt_content"
+            android:layout_gravity="top"
+            android:layout_marginHorizontal="@dimen/len_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <sit.kingshing.common.widget.GalleryView
+            android:id="@+id/gallery"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="@dimen/len_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </sit.kingshing.common.widget.GalleryView>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lay_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true">
+
+
+        <!--赞-->
+        <ImageView
+            android:id="@+id/im_praise"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginStart="@dimen/len_40"
+            android:src="@drawable/ic_praise" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:layout_marginStart="@dimen/len_72"
+            android:text="@string/label_praise" />
+
+        <!--评论-->
+        <ImageView
+            android:id="@+id/im_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/len_4"
+            android:src="@drawable/ic_comment" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/len_24"
+            android:text="@string/label_comment" />
+
+        <!--分享-->
+        <ImageView
+            android:id="@+id/im_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="@dimen/len_72"
+            android:src="@drawable/ic_share" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/len_40"
+            android:text="@string/label_share" />
+
+
+    </FrameLayout>
+
+
+</RelativeLayout>

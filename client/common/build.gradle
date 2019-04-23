@@ -35,14 +35,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     //
     implementation 'com.master.android:permissionhelper:2.0'
-
     api "com.google.code.gson:gson:$rootProject.ext.gsonVersion"
-
     // 空气面板
-   // api "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
+    // api "net.qiujuer.widget:airpanel:$rootProject.ext.airpanelVersion"
     // Lame 录音 MP3 转码器
     api "net.qiujuer.lame:lame:$rootProject.ext.lameVersion"
     // butterknife 依赖
@@ -55,8 +52,7 @@ dependencies {
     implementation project(':lang')
     implementation project(':face_res')
     implementation 'net.qiujuer.genius:kit-handler:2.0.0'
-
-
+    api files('libs/sdk_HeWeather_Public_Android_V2.4.jar')
 }
 
 
