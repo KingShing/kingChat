@@ -14,6 +14,10 @@ import sit.kingshing.factory.Factory;
 
 public class LocationUtil {
 
+    /**
+     *  获取当前的经纬度
+     * @return string 经度，纬度
+     */
     public  static String getLocation() {
         double latitude = 0.0;
         double longitude = 0.0;

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.facebook.stetho.Stetho;
 import com.igexin.sdk.PushManager;
 
 import sit.kingshing.common.app.Application;
@@ -29,6 +30,8 @@ public class App extends Application {
         PushManager.getInstance().registerPushIntentService(this, AppMessageReceiverService.class);
         //为了解决，进入app后，在设置里手动取消权限所带来的问题
         initPermissionChecker();
+        // 初始化Android调试神器stetho
+        Stetho.initializeWithDefaults(this);
     }
 
     private void initPermissionChecker() {
