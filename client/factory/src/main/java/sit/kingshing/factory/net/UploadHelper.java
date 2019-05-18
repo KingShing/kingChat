@@ -10,8 +10,6 @@ import com.alibaba.sdk.android.oss.common.auth.OSSPlainTextAKSKCredentialProvide
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 
-
-
 import java.io.File;
 import java.util.Date;
 
@@ -78,6 +76,17 @@ public class UploadHelper {
     }
 
     /**
+     * 上传一张朋友圈图片
+     *
+     * @param path 本地地址
+     * @return 服务器地址
+     */
+    public static String uploadFeedPicture(String path) {
+        String key = getFeedPicObjKey(path);
+        return upload(key, path);
+    }
+
+    /**
      * 上传头像
      *
      * @param path 本地地址
@@ -87,6 +96,7 @@ public class UploadHelper {
         String key = getPortraitObjKey(path);
         return upload(key, path);
     }
+
 
     /**
      * 上传音频
@@ -120,6 +130,13 @@ public class UploadHelper {
         String fileMd5 = HashUtil.getMD5String(new File(path));
         String dateString = getDateString();
         return String.format("portrait/%s/%s.jpg", dateString, fileMd5);
+    }
+
+    // feed/201703/dawewqfas243rfawr234.jpg
+    private static String getFeedPicObjKey(String path) {
+        String fileMd5 = HashUtil.getMD5String(new File(path));
+        String dateString = getDateString();
+        return String.format("feed/%s/%s.jpg", dateString, fileMd5);
     }
 
     // audio/201703/dawewqfas243rfawr234.mp3

@@ -16,6 +16,8 @@ import java.util.concurrent.Executors;
 
 import sit.kingshing.common.app.Application;
 import sit.kingshing.factory.data.DataSource;
+import sit.kingshing.factory.data.feed.FeedCenter;
+import sit.kingshing.factory.data.feed.FeedDispatcher;
 import sit.kingshing.factory.data.group.GroupCenter;
 import sit.kingshing.factory.data.group.GroupDispatcher;
 import sit.kingshing.factory.data.message.MessageCenter;
@@ -270,6 +272,16 @@ public class Factory {
      */
     public static GroupCenter getGroupCenter() {
         return GroupDispatcher.instance();
+    }
+
+
+    /**
+     * 获取一个feed处理中心的实现类
+     *
+     * @return 群中心的规范接口
+     */
+    public static FeedCenter getFeedCenter() {
+        return FeedDispatcher.instance();
     }
 
 

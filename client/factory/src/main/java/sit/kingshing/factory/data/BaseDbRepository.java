@@ -18,9 +18,11 @@ import sit.kingshing.utils.CollectionUtil;
  * 基础的数据库仓库
  * 实现对数据库的基本的监听操作
  */
-public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implements DbDataSource<Data>,
+public abstract class BaseDbRepository<Data extends BaseDbModel<Data>>
+        implements DbDataSource<Data>,
         DbHelper.ChangedListener<Data>,
         QueryTransaction.QueryResultListCallback<Data> {
+
     // 和Presenter交互的回调
     private DataSource.SucceedCallback<List<Data>> callback;
     protected final LinkedList<Data> dataList = new LinkedList<>(); // 当前缓存的数据
@@ -33,6 +35,10 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
         dataClass = (Class<Data>) types[0];
     }
 
+    /**
+     *   注册监听
+     * @param callback 传递一个callback回调，一般回调到Presenter
+     */
     @Override
     public void load(DataSource.SucceedCallback<List<Data>> callback) {
         this.callback = callback;
@@ -40,9 +46,11 @@ public abstract class BaseDbRepository<Data extends BaseDbModel<Data>> implement
         registerDbChangedListener();
     }
 
+    /**
+     *  取消监听，销毁数据
+     */
     @Override
     public void dispose() {
-        // 取消监听，销毁数据
         this.callback = null;
         DbHelper.removeChangedListener(dataClass, this);
         dataList.clear();

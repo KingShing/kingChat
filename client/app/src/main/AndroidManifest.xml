@@ -11,12 +11,11 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 读取存储权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 写存储权限，OSS需要 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 录音权限 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!--定位相关权限，用于天气定位-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  <!--访问网络定位-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/><!-- gps-->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 定位相关权限，用于天气定位 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 访问网络定位 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name=".App"
@@ -28,9 +27,15 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activities.MomentActivity"
-            android:label="朋友圈"></activity>
-        <!-- Android7 FileProvider 适配 -->
+        <activity
+            android:name=".activities.FeedCreateActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="" />
+        <activity
+            android:name=".activities.MomentActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="" /> <!-- Android7 FileProvider 适配 -->
         <provider
             android:name=".AppFileProvider"
             android:authorities="${applicationId}.provider"

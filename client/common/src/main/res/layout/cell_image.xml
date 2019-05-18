@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<sit.kingshing.common.widget.SquareLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black_alpha_16"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/im_image"
+        android:background="@color/trans"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/len_2"
+        tools:src="@drawable/ic_add" />
+
+</sit.kingshing.common.widget.SquareLayout>

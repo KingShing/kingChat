@@ -128,7 +128,7 @@ public class MessageHelper {
     }
 
     // 上传图片
-    private static String uploadPicture(String path) {
+    public static String uploadPicture(String path) {
         File file = null;
         try {
             // 通过Glide的缓存区间解决了图片外部权限的问题

@@ -49,10 +49,12 @@
 
     <!--朋友圈-->
     <string name="label_praise">赞</string>
+    <string name="label_publish">发布</string>
     <string name="label_share">分享</string>
     <string name="label_comment">评论</string>
     <string name="label_content_holder">请输入正文</string>
     <string name="label_content_tools">哟，又写BUG呢？</string>
+    <string name="label_feed_create_success">动态发布成功！</string>
     <!---->
 
     <!--天气-->
@@ -63,5 +65,6 @@
     <string name="label_cancel">取消</string>
     <string name="label_quit">你确定退出kingChat吗？</string>
     <string name="label_other_account">你确定切换账号吗？</string>
+    <string name="label_remove_picture">你确定移除改照片么？</string>
 
 </resources>

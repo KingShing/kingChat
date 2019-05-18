@@ -20,7 +20,7 @@
     <color name="textDark">#202020</color>
 
     <!--提示色彩-->
-    <color name="alertNormal">#4ce275</color>
+    <color name="alertNormal">#CCF5D7</color>
     <color name="alertImportant">#f98d2c</color>
 
     <!--遮罩颜色-->

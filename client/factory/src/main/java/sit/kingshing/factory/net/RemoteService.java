@@ -15,7 +15,9 @@ import sit.kingshing.factory.model.api.account.RegisterModel;
 import sit.kingshing.factory.model.api.group.GroupCreateModel;
 import sit.kingshing.factory.model.api.group.GroupMemberAddModel;
 import sit.kingshing.factory.model.api.message.MsgCreateModel;
+import sit.kingshing.factory.model.api.moment.FeedCreateModel;
 import sit.kingshing.factory.model.api.user.UserUpdateModel;
+import sit.kingshing.factory.model.card.FeedCard;
 import sit.kingshing.factory.model.card.GroupCard;
 import sit.kingshing.factory.model.card.GroupMemberCard;
 import sit.kingshing.factory.model.card.MessageCard;
@@ -23,41 +25,28 @@ import sit.kingshing.factory.model.card.UserCard;
 
 /**
  * 网络请求的所有的接口
- *
  */
 public interface RemoteService {
 
-    /**
-     * 注册接口
-     *
-     * @param model 传入的是RegisterModel
-     * @return 返回的是RspModel<AccountRspModel>
+    /*
+     *  用户
      */
+
+    //注册接口
     @POST("account/register")
     Call<RspModel<AccountRspModel>> accountRegister(@Body RegisterModel model);
 
-    /**
-     * 登录接口
-     *
-     * @param model LoginModel
-     * @return RspModel<AccountRspModel>
-     */
+    //登录接口
     @POST("account/login")
     Call<RspModel<AccountRspModel>> accountLogin(@Body LoginModel model);
 
-    /**
-     * 绑定设备Id
-     *
-     * @param pushId 设备Id
-     * @return RspModel<AccountRspModel>
-     */
+    //绑定设备Id
     @POST("account/bind/{pushId}")
     Call<RspModel<AccountRspModel>> accountBind(@Path(encoded = true, value = "pushId") String pushId);
 
     // 用户更新的接口
     @PUT("user")
     Call<RspModel<UserCard>> userUpdate(@Body UserUpdateModel model);
-
 
     // 用户搜索的接口
     @GET("user/search/{name}")
@@ -75,9 +64,20 @@ public interface RemoteService {
     @GET("user/{userId}")
     Call<RspModel<UserCard>> userFind(@Path("userId") String userId);
 
+
+    /*
+     * 发送消息
+     */
+
     // 发送消息的接口
     @POST("msg")
     Call<RspModel<MessageCard>> msgPush(@Body MsgCreateModel model);
+
+
+    /*
+     * 群
+     */
+
 
     // 创建群
     @POST("group")
@@ -104,4 +104,26 @@ public interface RemoteService {
     Call<RspModel<List<GroupMemberCard>>> groupMemberAdd(@Path("groupId") String groupId,
                                                          @Body GroupMemberAddModel model);
 
+    /**
+     * 朋友圈
+     */
+
+    //创建一条动态feed
+    @POST("feed/publish")
+    Call<RspModel<FeedCard>> feedCreate(@Body FeedCreateModel model);
+    //获取指定时间之后可见的feeds
+
+    //搜索一条feed
+    @GET("feed/{feedId}")
+    Call<RspModel<FeedCard>> feedSearch(@Path("feedId") String feedId);
+
+
+    //获取指定时间之后所有可见的feed
+    @GET("feed/visible/{lastUpdateTime}")
+    Call<RspModel<List<FeedCard>>> feedVisible(@Path("lastUpdateTime") String lastUpdateTime);
+
+
+    //获取指定时间之后自己创建的feed
+    @GET("feed/self")
+    Call<RspModel<List<FeedCard>>> feedSelf();
 }

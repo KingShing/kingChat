@@ -2,16 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/len_8"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <sit.kingshing.common.widget.PortraitView
         android:id="@+id/im_portrait"
         android:layout_width="@dimen/portraitSize"
         android:layout_height="@dimen/portraitSize"
         android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/len_2"
-        android:layout_marginStart="0dp"
+        android:layout_margin="@dimen/len_4"
         android:src="@drawable/default_portrait" />
 
     <TextView
@@ -30,42 +30,50 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_name"
         android:layout_margin="@dimen/len_2"
+
         android:layout_toEndOf="@+id/im_portrait"
         android:text="time" />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/lay_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txt_time"
         android:layout_alignParentStart="true"
         android:layout_marginTop="@dimen/len_8"
+        android:layout_marginStart="@dimen/len_44"
         tools:layout_height="@dimen/len_100">
 
         <TextView
-            tools:text="@string/label_content_tools"
-            android:hint="@string/label_content_holder"
             android:id="@+id/txt_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:layout_gravity="top"
-            android:layout_marginHorizontal="@dimen/len_8"
+            android:layout_marginTop="0dp"
+            android:hint="@string/label_content_holder"
+            tools:text="@string/label_content_tools" />
+
+        <sit.kingshing.common.widget.nineGrideView.LGNineGrideView
+            android:id="@+id/nineGrideView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/txt_content"
+            app:singleImageRatioMode="1"
+            app:space="10dp">
 
-        <sit.kingshing.common.widget.GalleryView
-            android:id="@+id/gallery"
-            android:layout_gravity="bottom"
-            android:layout_marginHorizontal="@dimen/len_8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        </sit.kingshing.common.widget.nineGrideView.LGNineGrideView>
 
-        </sit.kingshing.common.widget.GalleryView>
 
-    </FrameLayout>
+    </RelativeLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/lay_content"
+        android:layout_marginTop="@dimen/len_8"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true">
 

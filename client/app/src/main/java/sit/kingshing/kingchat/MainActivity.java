@@ -13,6 +13,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -143,7 +144,7 @@ public class MainActivity extends Activity implements BottomNavigationView.OnNav
 
     @OnClick(R.id.im_portrait)
     void onPortraitClick() {
-        mDrawerLayout.openDrawer(R.layout.include_left_menu_layout);
+        mDrawerLayout.openDrawer(Gravity.LEFT);
     }
 
     @Override

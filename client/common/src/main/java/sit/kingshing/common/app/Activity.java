@@ -1,8 +1,10 @@
 package sit.kingshing.common.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 
 import java.util.List;
 
@@ -112,4 +114,25 @@ public abstract class Activity extends AppCompatActivity {
     }
 
 
+    /**
+     * 点击返回键返回桌面而不是退出程序
+     *
+     * @param keyCode keyCode
+     * @param event event
+     * @return boolean
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Intent home = new Intent(Intent.ACTION_MAIN);
+            home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            home.addCategory(Intent.CATEGORY_HOME);
+            startActivity(home);
+            //overridePendingTransition(, );
+            // TODO 动画
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

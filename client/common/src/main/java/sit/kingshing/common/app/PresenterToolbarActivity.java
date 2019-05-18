@@ -25,7 +25,10 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
         if (mPresenter != null) {
             mPresenter.destroy();
         }
+        hideLoading();
     }
+
+
 
     /**
      * 初始化Presenter
@@ -95,5 +98,7 @@ public abstract class PresenterToolbarActivity<Presenter extends BaseContract.Pr
         // View中赋值Presenter
         mPresenter = presenter;
     }
+
+
 }
 
